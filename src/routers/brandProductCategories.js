@@ -8,7 +8,7 @@ const BrandCategoryModel = require("../models/brandProductCategories");
 router.post("/addProductCategory",upload().single("categoryImage"),async (req, res) => {
     let body = req.body;
     try {
-        let check = await BrandCategoryModel.findOne({categoryName:{$regex: new RegExp('^'+body.categoryName+'$','i')}});
+        let check = await BrandCategoryModel.findOne({categoryName:{$regex: new RegExp('^'+body.categoryName.trim()+'$','i')}});
         let bool=false;
         if (check) {
             res.json({ status: false, msg: "Category already exists" });
