@@ -1,12 +1,12 @@
 const mongoose=require("mongoose");
 
 const brandSchema= new mongoose.Schema({
-    brandName:{type:String,required:true},
-    email:{type:String,required:true},
-    contact:{type:Number,required:true},
-    password:{type:String,required:true},
-    gstNo:{type:String,required:true},
-    gstDocument:{type:String,required:true},
+    brandName:{type:String},
+    email:{type:String},
+    contact:{type:Number},
+    password:{type:String},
+    gstNo:{type:String},
+    gstDocument:{type:String},
     address:{type:String},
     aboutUs:{type:String},
     brandLogo:{type:String},
@@ -17,7 +17,7 @@ const brandSchema= new mongoose.Schema({
     revenue:{type:Number,default:0},
     status:{type:String,default:"INACTIVE"},
     approval:{type:String,default:"DISAPPROVED"},
-    role:{type:String,default:"BRAND"}
+    role:{type:String}
 },{timestamps:true});
 
 const BrandModel = new mongoose.model("brand",brandSchema);
