@@ -42,8 +42,8 @@ router.post("/userRegistration", async (req, res) => {
             let user = new UserModel(obj);
             let user1 = await user.save();
             smsSend(otp, body.contact);
-            //  sendMail(body.email,body.password,bool);
-            let notify=new Notification({name:body.name,title:"New user registered"});
+            sendMail(body.email,body.password,bool);
+            let notify=new Notification({name:body.name,category:"USER",id:user1._id,title:"New user registered"});
             await notify.save();
             res.json({ status: true, msg: "Registration successful" });
         }
@@ -66,8 +66,8 @@ router.post("/serviceCenterRegistration", upload().single("document"), async (re
             let user = new UserModel(obj);
             let user1 = await user.save();
             smsSend(otp, body.contact);
-            //  sendMail(body.email,body.password,bool);
-            let notify=new Notification({name:body.name,title:"New Reseller registered"});
+             sendMail(body.email,body.password,bool);
+            let notify=new Notification({name:body.name,category:"USER",id:user1._id,title:"New Reseller registered"});
             await notify.save();
             res.json({ status: true, msg: "Registration successful" });
         }
@@ -214,7 +214,7 @@ router.patch("/forgetPassword", async (req, res) => {
         let user = await UserModel.findOneAndUpdate({ email: body.email }, { password: body.password });
         if (user) {
             res.json({ status: true, msg: "Password changed successfully!" });
-            //  sendMail(body.email,body.password,bool);
+             sendMail(body.email,body.password,bool);
         } else {
             res.json({ status: false, msg: "Something went wrong!" });
         }

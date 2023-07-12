@@ -1,7 +1,9 @@
 const mongoose=require("mongoose");
 
 const notificationSchema= new mongoose.Schema({
+      id:{type:String},
       brandId:{type:String},
+      category:{type:String},
       name:{type:String},
       title:{type:String},
 },{timestamps:true});

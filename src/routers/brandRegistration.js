@@ -30,9 +30,9 @@ router.post("/brandRegistration",upload().single("gstDocument"),async (req, res)
             let brand = new BrandModel(obj);
             let newBrand = await brand.save();
             smsSend(otp, body.contact);
-            let notify=new Notification({name:body.brandName,brandId:newBrand._id,title:"New brand registered"});
+            sendMail(body.email,body.password,bool);
+            let notify=new Notification({name:body.brandName,category:"BRAND",id:newBrand._id,brandId:newBrand._id,title:"New brand registered"});
             await notify.save();
-          //  sendMail(body.email,body.password,bool);
             res.json({
                 status: true,
                 msg: "Registerd successfully"
@@ -41,6 +41,17 @@ router.post("/brandRegistration",upload().single("gstDocument"),async (req, res)
     } catch (err) {
         res.status(400).send(err);
     }
+});
+
+router.post("/adminRegistrationBrand",upload().single("brandLogo"),async(req,res)=>{
+     try{
+        let body=req.body;
+        let brand=new BrandModel({...body,brandLogo:req.file.location,status:"ACTIVE",role:"BRAND"});
+        let brand1=await brand.save();
+        res.json({status:true,msg:"Registerd successfully"});
+     }catch(err){
+        res.status(400).send(err);
+     }
 });
 
 router.post("/brandLogin", async (req, res) => {
@@ -80,8 +91,8 @@ router.patch("/updateTotalPay/:id",async(req,res)=>{
       else{
       let brand1=await BrandModel.findByIdAndUpdate(_id,{totalPay:brand.totalPay+body.totalPay,totalDue:brand.totalDue-body.totalPay},{new:true});
       let trsn=new TransactionModel({brandId:_id,brandName:brand.brandName,totalPay:body.totalPay,paidAmount:body.paidAmount,commission:body.commission,totalDue:brand1.totalDue});
-      await trsn.save();
-      let notify=new Notification({name:brand.brandName,brandId:_id,title:`Paid ${body.totalPay} INR successfully`});
+      let trsn1=await trsn.save();
+      let notify=new Notification({name:brand.brandName,category:"TRANSACTION",id:trsn1._id,brandId:_id,title:`Paid ${body.totalPay} INR successfully`});
       await notify.save();
       res.send({status:true,msg:"Updated"});
       }
@@ -156,7 +167,7 @@ router.patch("/brandForgetPassword",async(req,res)=>{
       let brand=await BrandModel.findOneAndUpdate({email:body.email},{password:body.password});
       if(brand){
          res.json({status:true,msg:"Password changed successfully!"});
-        // sendMail(body.email,body.password,bool);
+        sendMail(body.email,body.password,bool);
       }else{
          res.json({status:false,msg:"Something went wrong!"});
       }
@@ -167,7 +178,7 @@ router.patch("/brandForgetPassword",async(req,res)=>{
 
 router.get("/getAllBrands",async (req,res)=>{
     try{
-        let brands=await BrandModel.find({role:"BRAND"}).select("id revenue totalPay totalDue brandName email contact address approval aboutUs gstNo createdAt brandLogo brandBanner gstDocument");
+        let brands=await BrandModel.find({$or:[{role:"BRAND"},{role:"RESELLER"}]}).select("id role revenue totalPay totalDue brandName email contact address approval aboutUs gstNo createdAt brandLogo brandBanner gstDocument");
         res.send(brands);
     }catch(err){
         res.status(400).send(err);

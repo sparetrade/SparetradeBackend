@@ -8,7 +8,7 @@ const BrandCategoryModel = require("../models/brandProductCategories");
 router.post("/addProductCategory",upload().single("categoryImage"),async (req, res) => {
     let body = req.body;
     try {
-        let check = await BrandCategoryModel.findOne({categoryName:body.categoryName,userId:body.userId});
+        let check = await BrandCategoryModel.findOne({categoryName:{$regex: new RegExp('^'+body.categoryName+'$','i')}});
         let bool=false;
         if (check) {
             res.json({ status: false, msg: "Category already exists" });
@@ -51,7 +51,6 @@ router.patch("/updateProductCategoryBy/:id",async (req,res)=>{
         let _id=req.params.id;
         let body=req.body;
         let category=await BrandCategoryModel.findByIdAndUpdate(_id,body,{new:true});
-        console.log(category);
         res.json({status:true,msg:"Updated category details"});
     }catch(err){
         res.status(500).send(err);

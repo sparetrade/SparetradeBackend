@@ -39,7 +39,7 @@ router.patch("/updateProductImageBy/:id",upload().single("productImage"),async (
 });
 
 
-router.get("/allProductsByBrand/:id",async(req,res)=>{
+router.get("/allProductsByBrand/:id",async(req,res)=>{ 
   try{
     let id=req.params.id;
     let products=await ProductModel.find({userId:id});

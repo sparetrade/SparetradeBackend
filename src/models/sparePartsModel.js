@@ -9,6 +9,7 @@ const sparePartSchema= new moongoose.Schema({
     height:{type:String},
     weight:{type:String},
     brandName:{type:String},
+    seller:{type:String},
     MRP:{type:Number,required:true},
     bestPrice:{type:Number,required:true},
     description:{type:String,required:true},

@@ -11,7 +11,7 @@ function smsSend(otp,mobile){
 
     let options = {
         authorization :"oST3Je8bKsi6hGZjd9MHx047OmLrWcEDqAufIU51CnXpaBVtRPxqR3ZKJPHyWboQlOpAzstmL78j5cwS" ,
-         message : `This is from LY3LEY, Your OTP code is ${otp}` , 
+         message : `This is from SpareTrade, Your OTP code is ${otp}` , 
           numbers : [mobile]
         }
 
@@ -25,21 +25,22 @@ function smsSend(otp,mobile){
 
 async function sendMail(email,pass,isForget){
      let transporter = nodemailer.createTransport({
-        host:"smtp.gmail.com",
+        host:"smtp.zoho.in",
         port:587,
         secure:false,
         requireTLS:true,
         auth:{
            // user:"jesus.mueller87@ethereal.email",
-            user:"manzarbilal89@gmail.com",
-            pass:"txhjevointzpweqz"
+            user:"hi@sparetrade.in",
+            pass:"wegveb-mygwep-6xowxA"
             //pass:"zT95Aax114tCZtwD1B"
         }
      })
+
 try{
-    let sub=isForget ? "LY3LEY Password changed" : "LY3LEY Registration";
+    let sub=isForget ? "SpareTrade Password changed" : "SpareTrade Registration";
      let info = await transporter.sendMail({
-        from:'"LY3LEY  " <manzarbilal89@gmail.com>',
+        from:'"SpareTrade  " <hi@sparetrade.in>',
         to:email,
         subject:sub,
         html:`<h4>${isForget ? "Your Password has been changed." : "Thank you for your registration."}<h4>

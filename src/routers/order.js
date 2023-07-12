@@ -19,7 +19,7 @@ router.post("/createOrder",async(req,res)=>{
       let order=new Order(body);
       let order1=await order.save();
       ids.map(async(id)=>{
-      let notify=new Notification({name:body.name,brandId:id.id,title:"A new order created"});
+      let notify=new Notification({name:body.name,category:"ORDER",id:order1._id,brandId:id.id,title:"A new order created"});
       await notify.save();
     })
       res.send(order1);
@@ -35,7 +35,7 @@ router.post("/createReturnOrder",async(req,res)=>{
         let body=req.body;
         let order=new ReturnOrder(body);
         let returnOrder=await order.save();
-        let notify=new Notification({name:body.name,brandId:body.items?.[0].brandId,title:"A new return order created"});
+        let notify=new Notification({name:body.name,category:"RETURN",id:returnOrder._id,brandId:body.items?.[0].brandId,title:"A new return order created"});
         await notify.save();
         res.send(returnOrder);
        }catch(err){
