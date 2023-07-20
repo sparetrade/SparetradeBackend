@@ -13,7 +13,7 @@ const compactibleSchema= new moongoose.Schema({
     bestPrice:{type:Number,required:true},
     description:{type:String,required:true},
     partName:{type:String,required:true},
-    compactibleWith:{type:String,required:true},
+    compactibleWith:{type:Array,required:true},
     partNo:{type:String,required:true},
     faultType:{type:Array,required:true},
     images:{type:Array,required:true},
