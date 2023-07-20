@@ -53,6 +53,16 @@ router.post("/getCompactibleSparePartsByName", async (req, res) => {
     }
 });
 
+router.get("/compactibleSparePartByuserId/:id", async (req, res) => {
+    try {
+        let id = req.params.id;
+        let data = await Compactible.find({ userId: id });
+        res.send(data);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+});
+
 router.patch("/deleteCompactibleSparePartImage/:id", async (req, res) => {
     try {
         let _id = req.params.id;
