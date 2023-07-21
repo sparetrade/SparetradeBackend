@@ -49,7 +49,8 @@ router.get("/allSparePart", async (req, res) => {
 router.get("/sparePartByCategory", async (req, res) => {
     try {
         let search = req.query.category;
-        let data = await sparePartModel.find({category:search});
+        const search2=decodeURIComponent(search);
+        let data = await sparePartModel.find({category:search2});
         res.send(data);
     } catch (err) {
         res.status(400).send(err);
