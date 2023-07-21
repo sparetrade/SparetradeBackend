@@ -1,6 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const sparePartModel = require("../models/sparePartsModel");
+const Compactible=require("../models/compactibleProduct");
 const QRCode = require("qrcode");
 const { upload, generateQRCodeFromString } = require("../services/service");
 
@@ -37,10 +38,11 @@ router.patch("/updateSparePart/:id", async (req, res) => {
 router.get("/allSparePart", async (req, res) => {
     try {
         let search = req.query.sparePart;
-        let data = await sparePartModel.find({});
-        let searchData = data.filter(f1 => f1.partName.toLowerCase().includes(search.toLowerCase()) || f1.partNo.toLowerCase().includes(search.toLowerCase()));
-        let data1 = (search && searchData.length > 0) ? searchData : [];
-        res.send(data1);
+            const [modelAResults, modelBResults] = await Promise.all([
+              sparePartModel.find({ $or: [{ partName: {$regex :new RegExp(search,'i') }},{ partNo: {$regex :new RegExp(search,'i') }}] }).exec(),
+              Compactible.find({ $or: [{ partName: {$regex :new RegExp(search,'i') }},{ partNo: {$regex :new RegExp(search,'i') }}] }).exec()
+            ]);
+        res.send([...modelAResults,...modelBResults]);
     } catch (err) {
         res.status(400).send(err);
     }
