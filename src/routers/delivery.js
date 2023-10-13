@@ -131,6 +131,30 @@ router.get("/courierList",async(req,res)=>{
    }
 })
 
+router.post("/shipProduct",async(req,res)=>{
+   try{
+      let body=req.body;
+      const currentToken = readTokenFromFile();
+     let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/generate/pickup",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let {data}=response;
+     res.send(data);
+   }catch(err){
+    res.status(400).send(err)
+   }
+})
+
+router.get("/courierAbilty",async(req,res)=>{
+   try{
+      let body=req.body;
+      const currentToken = readTokenFromFile();
+     let response=await axios.get("https://apiv2.shiprocket.in/v1/external/courier/serviceability/",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let {data}=response;
+     res.send(data);
+   }catch(err){
+    res.status(400).send(err)
+   }
+})
+
 router.post("/cancelOrder",async(req,res)=>{
    try{
       let body=req.body;
