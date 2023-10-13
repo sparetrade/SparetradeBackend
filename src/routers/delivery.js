@@ -110,7 +110,18 @@ router.get("/getSpecificOrder/:id",async(req,res)=>{
 
 router.post("/generateAWB",async(req,res)=>{
    try{
-     let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",{headers:{'Authorization':`Bearer ${currentToken}`}})
+      let body=req.body;
+     let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let {data}=response;
+     res.send(data);
+   }catch(err){
+    res.status(400).send(err.response.data)
+   }
+})
+
+router.get("/courierList",async(req,res)=>{
+   try{
+     let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/courierListWithCounts",{headers:{'Authorization':`Bearer ${currentToken}`}})
      let {data}=response;
      res.send(data);
    }catch(err){
