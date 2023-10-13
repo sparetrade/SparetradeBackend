@@ -120,7 +120,7 @@ router.post("/userPhoneLogin", async (req, res) => {
 router.get("/userDetail/:id", async (req, res) => {
     try {
         let _id = req.params.id;
-        let user = await UserModel.findById(_id).select("_id name email contact discoutPercentage image role document discount createdAt");
+        let user = await UserModel.findById(_id).select("_id name email contact discountPercentage image role document discount createdAt");
         res.send(user);
     } catch (err) {
         res.status(404).send(err);
@@ -129,7 +129,7 @@ router.get("/userDetail/:id", async (req, res) => {
 
 router.get("/allUserDetail/", async (req, res) => {
     try {
-        let user = await UserModel.find({}).select("_id name role document discoutPercentage image discount email contact createdAt");
+        let user = await UserModel.find({}).select("_id name role document discountPercentage image discount email contact createdAt");
         res.send(user);
     } catch (err) {
         res.status(404).send(err);
