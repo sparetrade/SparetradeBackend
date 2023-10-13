@@ -8,9 +8,8 @@ const userSchema= new mongoose.Schema({
     image:{type:String},
     document:{type:String},
     discount:{type:String,default:"NOT_VERIFIED"},
-    // password:{type:String,required:true},
+    discountPercentage:{type:Number,default:0},
     otp:{type:String},
-    // status:{type:String,default:"INACTIVE"},
 },{timestamps:true});
 
 const UserModel = new mongoose.model("users",userSchema);
