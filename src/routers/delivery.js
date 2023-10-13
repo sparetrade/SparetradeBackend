@@ -86,7 +86,7 @@ router.get("/getAllReturns",async(req,res)=>{
    }
 });
 
-router.get("/getAllOrders",async(req,res)=>{
+router.get("/getAllShiprocketOrders",async(req,res)=>{
    try{
       const currentToken = readTokenFromFile();
     let data=await axios.get("https://apiv2.shiprocket.in/v1/external/orders",{headers:{'Authorization':`Bearer ${currentToken}`}});
@@ -107,6 +107,16 @@ router.get("/getSpecificOrder/:id",async(req,res)=>{
       res.status(400).send(err.response.data);
    }
 });
+
+router.post("/generateAWB",async(req,res)=>{
+   try{
+     let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let {data}=response;
+     res.send(data);
+   }catch(err){
+    res.status(400).send(err.response.data)
+   }
+})
 
 router.post("/cancelOrder",async(req,res)=>{
    try{
