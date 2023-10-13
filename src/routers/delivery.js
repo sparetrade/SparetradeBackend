@@ -143,11 +143,11 @@ router.post("/shipProduct",async(req,res)=>{
    }
 })
 
-router.get("/courierAbilty",async(req,res)=>{
+router.post("/courierAbility",async(req,res)=>{
    try{
       let body=req.body;
       const currentToken = readTokenFromFile();
-     let response=await axios.get("https://apiv2.shiprocket.in/v1/external/courier/serviceability/",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let response=await axios.get(`https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=${body.pickup_postal_code}&delivery_postcode=${body.delivery_postal_code}&cod=${body.cod}&weight=${body.weight}`,{headers:{'Authorization':`Bearer ${currentToken}`}})
      let {data}=response;
      res.send(data);
    }catch(err){
