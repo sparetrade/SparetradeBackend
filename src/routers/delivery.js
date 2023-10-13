@@ -82,7 +82,17 @@ router.get("/getAllReturns",async(req,res)=>{
     let data=await axios.get("https://apiv2.shiprocket.in/v1/external/orders/processing/return",{headers:{'Authorization':`Bearer ${currentToken}`}});
     res.send(data.data);
    }catch(err){
-      console.log(err);
+      res.status(400).send(err);
+   }
+});
+
+router.get("/getAllOrders",async(req,res)=>{
+   try{
+      const currentToken = readTokenFromFile();
+    let data=await axios.get("https://apiv2.shiprocket.in/v1/external/orders",{headers:{'Authorization':`Bearer ${currentToken}`}});
+    res.send(data.data);
+   }catch(err){
+      res.status(400).send(err);
    }
 });
 
