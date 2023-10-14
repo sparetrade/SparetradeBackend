@@ -144,6 +144,18 @@ router.get("/trackShipment/:id",async(req,res)=>{
    }
 })
 
+router.get("/trackShipmentbyAWB/:id",async(req,res)=>{
+   try{
+      let id=req.params.id;
+      const currentToken = readTokenFromFile();
+     let response=await axios.get(`https://apiv2.shiprocket.in/v1/external/courier/track/awb/${id}`,{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let {data}=response;
+     res.send(data);
+   }catch(err){
+    res.status(400).send(err)
+   }
+})
+
 router.get("/getAllShipment",async(req,res)=>{
    try{
       const currentToken = readTokenFromFile();
