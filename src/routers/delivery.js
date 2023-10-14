@@ -119,11 +119,24 @@ router.post("/generateAWB",async(req,res)=>{
     res.status(400).send(err.response.data)
    }
 })
+https://apiv2.shiprocket.in/v1/external/courier/track?order_id=123
 
 router.get("/courierList",async(req,res)=>{
    try{
       const currentToken = readTokenFromFile();
      let response=await axios.get("https://apiv2.shiprocket.in/v1/external/courier/courierListWithCounts",{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let {data}=response;
+     res.send(data);
+   }catch(err){
+    res.status(400).send(err)
+   }
+})
+
+router.get("/trackShipment/:id",async(req,res)=>{
+   try{
+      let id=req.params.id;
+      const currentToken = readTokenFromFile();
+     let response=await axios.get(`https://apiv2.shiprocket.in/v1/external/courier/track?order_id=${id}`,{headers:{'Authorization':`Bearer ${currentToken}`}})
      let {data}=response;
      res.send(data);
    }catch(err){
@@ -201,4 +214,5 @@ router.post("/returnOrder",async(req,res)=>{
       res.status(400).send(err.response.data);
    }
 });
+
 module.exports=router;
