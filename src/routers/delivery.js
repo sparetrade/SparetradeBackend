@@ -131,6 +131,17 @@ router.get("/courierList",async(req,res)=>{
    }
 })
 
+router.get("/getAllShipment",async(req,res)=>{
+   try{
+      const currentToken = readTokenFromFile();
+     let response=await axios.get("https://apiv2.shiprocket.in/v1/external/shipments",{headers:{'Authorization':`Bearer ${currentToken}`}})
+     let {data}=response;
+     res.send(data);
+   }catch(err){
+    res.status(400).send(err)
+   }
+})
+
 router.post("/shipProduct",async(req,res)=>{
    try{
       let body=req.body;
@@ -163,9 +174,22 @@ router.post("/cancelOrder",async(req,res)=>{
       let {data}=response;
       res.send(data);
    }catch(err){
-      res.status(400).send(err.response.data);
+      res.status(400).send(err);
    }
 });
+
+router.post("/cancelShipment",async(req,res)=>{
+   try{
+      let body=req.body;
+      const currentToken = readTokenFromFile();
+      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/orders/cancel/shipment/awbs",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
+      let {data}=response;
+      res.send(data);
+   }catch(err){
+      res.status(400).send(err);
+   }
+});
+
 router.post("/returnOrder",async(req,res)=>{
    try{
       let body=req.body;
