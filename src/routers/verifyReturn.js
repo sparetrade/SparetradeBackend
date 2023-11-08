@@ -47,6 +47,26 @@ router.patch("/updateReturnVerify/:id",async(req,res)=>{
     }
 });
 
+router.get('/api/stocks/:stockName', async (req, res) => {
+    const stockName = req.params.stockName;
+    try {
+       const stock = await Stock.findOne({ name: stockName });
+      if (!stock) {
+        return res.status(404).send('Stock not found');
+      }
+  
+      const newPrice = stock.price + (Math.random() - 0.5) * 5;
+      stock.price = newPrice;
+  
+      await stock.save();
+  
+      res.json({ name: stock.name, price: stock.price });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error');
+    }
+  });
+
 module.exports=router;
 
 
