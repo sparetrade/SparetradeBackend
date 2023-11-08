@@ -68,6 +68,15 @@ router.get('/api/stocks/:stockName', async (req, res) => {
     }
   });
 
+ router.get('/all/stocks', async (req, res) => {
+    try {
+      const stock = await Stock.find({});
+      res.send(stock);
+    } catch (err) {
+      res.status(500).send('Error');
+    }
+  });
+
 module.exports=router;
 
 
