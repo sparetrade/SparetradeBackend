@@ -2,6 +2,7 @@ const express=require("express");
 const router=new express.Router();
 const VerifyReturn=require("../models/productReturnVerify");
 const {upload}=require("../services/service")
+const Stock = require("../models/stock")
 
 router.post("/verifyReturnOrder",upload().single("video"),async(req,res)=>{
        let body=req.body;
