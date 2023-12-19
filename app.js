@@ -19,6 +19,7 @@ const blogCategory=require("./src/routers/blogCategory");
 const review=require("./src/routers/review");
 const notification=require("./src/routers/notification");
 const compactible=require("./src/routers/compactibleRouter");
+const pickupLocation=require("./src/routers/pickupLocation");
 
 const app=express();
 
@@ -55,6 +56,7 @@ app.use(blogCategory);
 app.use(review);
 app.use(notification);
 app.use(compactible);
+app.use(pickupLocation);
 
 const port = process.env.PORT || 5000;
 app.listen(port,()=>{
