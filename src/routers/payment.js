@@ -71,7 +71,6 @@ router.post("/brandDuePayment",async(req,res)=>{
       let body=req.body;
       let response = await axios.post("https://api.razorpay.com/v1/payouts",body,{headers:{Authorization:"Basic " +new Buffer.from(process.env.RAZORPAYX_KEY_ID + ":" +process.env.RAZORPAYX_KEY_SECRET ).toString("base64")}});
       let {data}=response;
-      console.log(data)
       res.send(data);
       }catch(err){
        res.status(400).send(err); 

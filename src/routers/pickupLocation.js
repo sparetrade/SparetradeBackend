@@ -2,17 +2,6 @@ const express=require("express");
 const router= express.Router();
 const PickupLocation= require("../models/brandPickupLocation");
 
-router.post("/addPickupLocation",async(req,res)=>{
-    try{
-        let body=req.body;
-        let data=new PickupLocation(body);
-        await data.save();
-        res.status(201).json({status:true,msg:"Added"});
-    }catch(err){
-        res.status(400).send(err);
-    }
-});
-
 router.get("/getPickupLocationbyUser/:id",async(req,res)=>{
     try{
        let id=req.params.id;
