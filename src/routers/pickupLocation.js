@@ -6,7 +6,7 @@ router.get("/getPickupLocationbyUser/:id",async(req,res)=>{
     try{
        let id=req.params.id;
        let data= await PickupLocation.findOne({userId:id});
-       res.send(data);
+       res.send([data]);
     }catch(err){
         res.status(500).send(err);
     }
