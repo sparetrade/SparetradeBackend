@@ -2,7 +2,8 @@ const express=require("express");
 const router=new express.Router();
 const axios=require("axios");
 const Order=require("../models/order");
-const fs=require("fs")
+const fs=require("fs");
+const PickupLocation=require("../models/brandPickupLocation");
 
 const token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5NzExMDkzNiwiZXhwIjoxNjk3OTc0OTM2LCJuYmYiOjE2OTcxMTA5MzYsImp0aSI6IlplM1M2ZXJXUm02V2VENnMiLCJzdWIiOjM1OTEyMTcsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.ngrbQwIIDrsFxTeIHepeJFeqsiTvLsVwNeAi1KhsGoE";
 
@@ -50,15 +51,47 @@ cron.schedule('0 0 */9 * *', () => {
   refreshToken();
 });
 
+
+router.post("/addPickupLocation",async(req,res)=>{
+   try{
+       let body=req.body;
+       let data=new PickupLocation(body);
+       await data.save();
+       const currentToken = readTokenFromFile();
+       let newBody={
+         "pickup_location":body.pickupLocation,
+         "name": body.name,
+         "email":body.email,
+         "phone": body.phone,
+         "address": body.address,
+         "address_2": body.address2,
+         "city": body.city,
+         "state":body.state,
+         "country": "India",
+         "pin_code": body.pinCode
+         
+      }
+       await axios.post("https://apiv2.shiprocket.in/v1/external/settings/company/addpickup",newBody,{headers:{'Authorization':`Bearer ${currentToken}`}})
+       res.status(201).json({status:true,msg:"Added"});
+   }catch(err){
+       res.status(400).send(err);
+   }
+});
+
 router.post("/createDeliveryOrder",async(req,res)=>{
        try{
           let body=req.body;
           const currentToken = readTokenFromFile();
-          let response=await axios.post("https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
+          let pickupLocation= await PickupLocation.findOne({userId:body.userId});
+          if(pickupLocation){
+          let finalOrder={...body.orderData,pickup_location:pickupLocation.pickupLocation};
+          let response=await axios.post("https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",finalOrder,{headers:{'Authorization':`Bearer ${currentToken}`}});
           let {data}=response;
-          console.log(data);
           await Order.updateOne({_id:body.order_id},{shipOrderId:data.order_id,shipmentId:data.shipment_id});
           res.send(data);
+         }else{
+            res.status(404).send("Pickup Location not found");
+         }
        }catch(err){
           res.status(400).send(err.response.data);
        }
