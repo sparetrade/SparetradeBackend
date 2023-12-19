@@ -12,6 +12,15 @@ router.get("/getPickupLocationbyUser/:id",async(req,res)=>{
     }
 })
 
+router.get("/getAllPickupLocation",async(req,res)=>{
+    try{
+       let data= await PickupLocation.find({});
+       res.send(data);
+    }catch(err){
+        res.status(500).send(err);
+    }
+})
+
 router.patch("/updatePickupLocation/:id",async(req,res)=>{
     try{
        let _id=req.params.id;
