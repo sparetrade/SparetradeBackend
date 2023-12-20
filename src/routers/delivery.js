@@ -87,7 +87,7 @@ router.post("/createDeliveryOrder",async(req,res)=>{
           let finalOrder={...body.orderData,pickup_location:pickupLocation.pickupLocation};
           let response=await axios.post("https://apiv2.shiprocket.in/v1/external/orders/create/adhoc",finalOrder,{headers:{'Authorization':`Bearer ${currentToken}`}});
           let {data}=response;
-          await Order.updateOne({_id:body.order_id},{shipOrderId:data.order_id,shipmentId:data.shipment_id});
+          await Order.updateOne({_id:body.orderData.order_id},{shipOrderId:data.order_id,shipmentId:data.shipment_id});
           res.send(data);
          }else{
             res.status(404).send("Pickup Location not found");
