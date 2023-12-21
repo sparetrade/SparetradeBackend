@@ -5,7 +5,7 @@ const brandCategorySchema= new mongoose.Schema({
     brandName:{type:String},
     categoryName:{type:String,required:true},
     categoryImage:{type:String,required:true},
-    technicianPrice:{type:Number,default:0},
+    technicianCharges:{type:Number,default:0},
     status:{type:String,default:"INACTIVE"},
      
 },{timestamps:true});
