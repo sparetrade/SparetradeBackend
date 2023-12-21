@@ -78,5 +78,15 @@ router.delete("/deleteProductCategoryBy/:id",async (req,res)=>{
     }
 });
 
+router.get("/getCategoryByName",async(req,res)=>{
+    try{
+       let name=req.query.name;
+       let data=await BrandCategoryModel.findOne({categoryName:name});
+       res.send(data);
+    }catch(err){
+         res.status(500).send(err);
+    }
+})
+
  
 module.exports = router;
