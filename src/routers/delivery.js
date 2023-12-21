@@ -113,7 +113,7 @@ router.post("/generateManifest",async(req,res)=>{
    try{
       let body=req.body;
       const currentToken = readTokenFromFile();
-      let response=await axios.post("/https://apiv2.shiprocket.in/v1/external/manifests/generate",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
+      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/manifests/generate",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
       let {data}=response;
       res.send(data);
    }catch(err){
@@ -125,7 +125,7 @@ router.post("/printManifest",async(req,res)=>{
    try{
       let body=req.body;
       const currentToken = readTokenFromFile();
-      let response=await axios.post("/https://apiv2.shiprocket.in/v1/external/manifests/print",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
+      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/manifests/print",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
       let {data}=response;
       res.send(data);
    }catch(err){
@@ -137,7 +137,7 @@ router.post("/generateLabel",async(req,res)=>{
    try{
       let body=req.body;
       const currentToken = readTokenFromFile();
-      let response=await axios.post("/https://apiv2.shiprocket.in/v1/external/courier/generate/label",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
+      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/generate/label",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
       let {data}=response;
       res.send(data);
    }catch(err){
@@ -149,7 +149,7 @@ router.post("/generateInvoice",async(req,res)=>{
    try{
       let body=req.body;
       const currentToken = readTokenFromFile();
-      let response=await axios.post("/https://apiv2.shiprocket.in/v1/external/orders/print/invoice",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
+      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/orders/print/invoice",body,{headers:{'Authorization':`Bearer ${currentToken}`}});
       let {data}=response;
       res.send(data);
    }catch(err){
