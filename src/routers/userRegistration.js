@@ -227,8 +227,8 @@ router.patch("/verifyReseller/:id", async (req, res) => {
     try {
         let _id = req.params.id;
         let body = req.body;
-        let user = await UserModel.findByIdAndUpdate(_id, body);
-        res.send("Verified");
+        let user = await UserModel.findByIdAndUpdate(_id, body,{new:true});
+        res.send(user);
     } catch (err) {
         res.status(500).send(err);
     }
