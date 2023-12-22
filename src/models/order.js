@@ -13,7 +13,12 @@ const orderSchema=new mongoose.Schema({
      status:{type:String,default:"ORDER"},
      pin:{type:String,required:true},
      state:{type:String,required:true},
-     city:{type:String,required:true}
+     city:{type:String,required:true},
+     sub_total:{type:Number},
+     length:{type:Number},
+     breadth:{type:Number},
+     height:{type:Number},
+     weight:{type:Number},
 },{timestamps:true});
 
 const order=new mongoose.model("order",orderSchema);
