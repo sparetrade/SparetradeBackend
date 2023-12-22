@@ -193,7 +193,7 @@ router.get("/getSpecificOrder/:id",async(req,res)=>{
 router.post("/generateAWB",async(req,res)=>{
    try{
       let body=req.body;
-      const currentToken = readTokenFromFile();
+     const currentToken = readTokenFromFile();
      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
      let {data}=response;
      res.send(data);
@@ -253,6 +253,7 @@ router.post("/shipProduct",async(req,res)=>{
    try{
       let body=req.body;
       const currentToken = readTokenFromFile();
+      await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/generate/pickup",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
      let {data}=response;
      res.send(data);
