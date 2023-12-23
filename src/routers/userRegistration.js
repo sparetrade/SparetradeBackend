@@ -120,7 +120,7 @@ router.post("/userPhoneLogin", async (req, res) => {
 router.get("/userDetail/:id", async (req, res) => {
     try {
         let _id = req.params.id;
-        let user = await UserModel.findById(_id).select("_id name email contact discountPercentage image role document discount createdAt");
+        let user = await UserModel.findById(_id).select("_id name email address address2 pin state city contact discountPercentage image role document discount createdAt");
         res.send(user);
     } catch (err) {
         res.status(404).send(err);
