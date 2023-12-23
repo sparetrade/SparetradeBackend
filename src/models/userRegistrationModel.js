@@ -9,6 +9,11 @@ const userSchema= new mongoose.Schema({
     document:{type:String},
     discount:{type:String,default:"NOT_VERIFIED"},
     discountPercentage:{type:Number,default:0},
+    address:{type:String},
+    address2:{type:String},
+    pin:{type:String},
+    city:{type:String},
+    state:{type:String},
     otp:{type:String},
 },{timestamps:true});
 
