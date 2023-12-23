@@ -1,5 +1,6 @@
 const express = require("express");
 require("./src/db/connection");
+const cors=require("cors");
 const user = require("./src/routers/userRegistration");
 const brand = require("./src/routers/brandRegistration");
 const productCategory=require("./src/routers/brandProductCategories");
@@ -24,6 +25,7 @@ const pickupLocation=require("./src/routers/pickupLocation");
 const app=express();
 
 app.use(express.json());
+app.use(cors());
 app.use(function (req, res, next){
     res.header("Access-Control-Allow-Origin","*");
     res.header(
