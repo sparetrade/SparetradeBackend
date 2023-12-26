@@ -32,7 +32,7 @@ function smsSend(otp,mobile){
        auth:{
           // user:"jesus.mueller87@ethereal.email",
            user:"hi@sparetrade.in",
-           pass:"wegveb-mygwep-6xowxA"
+           pass:"o7Sy?dpc"
            //pass:"zT95Aax114tCZtwD1B"
        }
     })
@@ -46,10 +46,10 @@ try{
        html:`<h4>Hello ${customerName}<h4>
 
        Your order #${orderId} has been successfully confirmed!
-       Total Amount: ${price} INR
-       Thank you for choosing SpareTrade! If you have any questions, feel free to contact us.
+       <div>Total Amount: ${price} INR</div>
+       <div>Thank you for choosing SpareTrade! If you have any questions, feel free to contact us.</div>
        
-       Have a great day!` 
+      <div> Have a great day!</div>` 
     });
 
 }catch(err){
@@ -99,9 +99,9 @@ try{
        from:'"SpareTrade  " <hi@sparetrade.in>',
        to:email,
        subject:sub,
-       html:`Hello ${brandName},
+       html:`<h4>Hello ${brandName}</h4>,
 
-       We're pleased to confirm your new order #${orderId}!
+       </div>We're pleased to confirm your new order #${orderId}!</div>
        items:- </br>
        ${item?.map(it=>`<div>
         <div>Part : ${it?.name}</div>
@@ -109,9 +109,9 @@ try{
         <div>Units : ${it?.units}</div>
         </div>`
         )}
-       Total Amount: ${price}
+       <h4>Total Amount: ${price}</h4>
        
-       Thank you for your prompt service!` 
+       <h4>Thank you for your prompt service!</h4>` 
     });
 
 }catch(err){
@@ -149,7 +149,7 @@ async function sendMail(email,pass,isForget){
         auth:{
            // user:"jesus.mueller87@ethereal.email",
             user:"hi@sparetrade.in",
-            pass:"wegveb-mygwep-6xowxA"
+            pass:"o7Sy?dpc"
             //pass:"zT95Aax114tCZtwD1B"
         }
      })
