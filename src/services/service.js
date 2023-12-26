@@ -23,6 +23,123 @@ function smsSend(otp,mobile){
     }) 
   }
 
+  async function customerOrderConfirmEmail(customerName,price,orderId,email){
+    let transporter = nodemailer.createTransport({
+       host:"smtp.zoho.in",
+       port:587,
+       secure:false,
+       requireTLS:true,
+       auth:{
+          // user:"jesus.mueller87@ethereal.email",
+           user:"hi@sparetrade.in",
+           pass:"wegveb-mygwep-6xowxA"
+           //pass:"zT95Aax114tCZtwD1B"
+       }
+    })
+
+try{
+   let sub="Order Confirmed"
+    let info = await transporter.sendMail({
+       from:'"SpareTrade  " <hi@sparetrade.in>',
+       to:email,
+       subject:sub,
+       html:`<h4>Hello ${customerName}<h4>
+
+       Your order #${orderId} has been successfully confirmed!
+       Total Amount: ${price} INR
+       Thank you for choosing SpareTrade! If you have any questions, feel free to contact us.
+       
+       Have a great day!` 
+    });
+
+}catch(err){
+   console.log("err",err);
+}
+}
+
+  function customerOrderConfirmSms(customerName,price,orderId,mobile){
+    let content=`Hello ${customerName},
+
+    Your order #${orderId} has been successfully confirmed!
+    Total Amount: ${price} INR
+    Thank you for choosing SpareTrade! If you have any questions, feel free to contact us.
+    
+    Have a great day!`
+    let options = {
+        authorization :"oST3Je8bKsi6hGZjd9MHx047OmLrWcEDqAufIU51CnXpaBVtRPxqR3ZKJPHyWboQlOpAzstmL78j5cwS" ,
+         message : content , 
+          numbers : [mobile]
+        }
+
+    fast2sms.sendMessage(options)
+    .then((res)=>{
+        // console.log("res",res)
+    }).catch((err)=>{
+      console.log(err);
+    }) 
+  }
+
+  async function brandOrderConfirmEmail(brandName,price,orderId,email,item){
+    let transporter = nodemailer.createTransport({
+       host:"smtp.zoho.in",
+       port:587,
+       secure:false,
+       requireTLS:true,
+       auth:{
+          // user:"jesus.mueller87@ethereal.email",
+           user:"hi@sparetrade.in",
+           pass:"wegveb-mygwep-6xowxA"
+           //pass:"zT95Aax114tCZtwD1B"
+       }
+    })
+
+try{
+   let sub="New Order Confirmed"
+    let info = await transporter.sendMail({
+       from:'"SpareTrade  " <hi@sparetrade.in>',
+       to:email,
+       subject:sub,
+       html:`Hello ${brandName},
+
+       We're pleased to confirm your new order #${orderId}!
+       items:- </br>
+       ${item?.map(it=><>
+        <div>Part : {it?.name}</div>
+        <div>Sku : {it?.sku}</div>
+        <div>Units : {it?.units}</div>
+        </>
+        )}
+       Total Amount: ${price}
+       
+       Thank you for your prompt service!` 
+    });
+
+}catch(err){
+   console.log("err",err);
+}
+}
+
+  function brandOrderConfirmSms(brandName,price,orderId,mobile){
+    let content=`Hello ${brandName},
+
+    We're pleased to confirm your new order #${orderId}!
+    Total Amount: ${price}
+    
+    Thank you for your prompt service!` 
+    let options = {
+        authorization :"oST3Je8bKsi6hGZjd9MHx047OmLrWcEDqAufIU51CnXpaBVtRPxqR3ZKJPHyWboQlOpAzstmL78j5cwS" ,
+         message : content , 
+          numbers : [mobile]
+        }
+
+    fast2sms.sendMessage(options)
+    .then((res)=>{
+        // console.log("res",res)
+    }).catch((err)=>{
+      console.log(err);
+    }) 
+  }
+
 async function sendMail(email,pass,isForget){
      let transporter = nodemailer.createTransport({
         host:"smtp.zoho.in",
@@ -113,4 +230,8 @@ module.exports={
     sendMail,
     upload,
     generateQRCodeFromString,
+    customerOrderConfirmSms,
+    customerOrderConfirmEmail,
+    brandOrderConfirmEmail,
+    brandOrderConfirmSms
   }
