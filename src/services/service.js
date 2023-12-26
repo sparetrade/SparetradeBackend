@@ -88,7 +88,7 @@ try{
        auth:{
           // user:"jesus.mueller87@ethereal.email",
            user:"hi@sparetrade.in",
-           pass:"wegveb-mygwep-6xowxA"
+           pass:"o7Sy?dpc"
            //pass:"zT95Aax114tCZtwD1B"
        }
     })
@@ -99,19 +99,17 @@ try{
        from:'"SpareTrade  " <hi@sparetrade.in>',
        to:email,
        subject:sub,
-       html:`<h4>Hello ${brandName}</h4>,
+       html:`<h4>Hello ${brandName}</h4>
 
        </div>We're pleased to confirm your new order #${orderId}!</div>
-       items:- </br>
+       <h5>Items:-</h5>
        ${item?.map(it=>`<div>
         <div>Part : ${it?.name}</div>
         <div>Sku : ${it?.sku}</div>
         <div>Units : ${it?.units}</div>
         </div>`
         )}
-       <h4>Total Amount: ${price}</h4>
-       
-       <h4>Thank you for your prompt service!</h4>` 
+       <h4>Total Amount: ${price} INR</h4>`
     });
 
 }catch(err){
