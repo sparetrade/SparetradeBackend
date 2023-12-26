@@ -194,8 +194,9 @@ router.post("/brandDuePayment",async(req,res)=>{
 
 router.post("/testEmail",async(req,res)=>{
       try{
-         let {name,email,contact,price}=req.body;
-         customerOrderConfirmEmail(name,price,234532,email);
+         let {name,email,contact,price,item}=req.body;
+        await customerOrderConfirmEmail(name,price,234532,email);
+        await brandOrderConfirmEmail(name,price,234556,email,item);
          res.send("success");
       }catch(err){
          res.status(400).send(err);
