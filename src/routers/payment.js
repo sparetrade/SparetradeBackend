@@ -132,8 +132,8 @@ router.post("/paymentVerification",async(req,res)=>{
                     await notify.save();
                })
               //  customerOrderConfirmSms(order1?.name,totalPrice1,order1?.id,+order1?.contact);
-              await customerOrderConfirmEmail(order1?.name,totalPrice1,order1?.id,order1?.email);
-              await brandOrderConfirmEmail(pickupLocation?.name,totalPrice1,order1?.id,pickupLocation?.email,item);
+              await customerOrderConfirmEmail(order1?.name,totalPrice1,order1?.id,order1?.email,item);
+              await brandOrderConfirmEmail(pickupLocation?.name,totalPrice1,order1?.id,pickupLocation?.email,item,order1?.name,order1?.contact);
               //  brandOrderConfirmSms(pickupLocation?.name,totalPrice1,order1?.id,+pickupLocation?.phone);
               }else{
                  res.status(404).send("Pickup Location not found");
