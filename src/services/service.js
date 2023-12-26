@@ -103,11 +103,11 @@ try{
 
        We're pleased to confirm your new order #${orderId}!
        items:- </br>
-       ${item?.map(it=><>
-        <div>Part : {it?.name}</div>
-        <div>Sku : {it?.sku}</div>
-        <div>Units : {it?.units}</div>
-        </>
+       ${item?.map(it=>`<div>
+        <div>Part : ${it?.name}</div>
+        <div>Sku : ${it?.sku}</div>
+        <div>Units : ${it?.units}</div>
+        </div>`
         )}
        Total Amount: ${price}
        
