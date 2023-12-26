@@ -23,7 +23,7 @@ function smsSend(otp,mobile){
     }) 
   }
 
-  async function customerOrderConfirmEmail(customerName,price,orderId,email){
+  async function customerOrderConfirmEmail(customerName,price,orderId,email,item){
     let transporter = nodemailer.createTransport({
        host:"smtp.zoho.in",
        port:587,
@@ -46,9 +46,15 @@ try{
        html:`<h4>Hello ${customerName}<h4>
 
        Your order #${orderId} has been successfully confirmed!
-       <div>Total Amount: ${price} INR</div>
+       <h4>Items:-</h4>
+       ${item?.map(it=>`<div>
+        <div>Part : ${it?.name}</div>
+        <div>Sku : ${it?.sku}</div>
+        <div>Units : ${it?.units}</div>
+        </div>`
+        )}
+       <h4>Total Amount: ${price} INR</h4>
        <div>Thank you for choosing SpareTrade! If you have any questions, feel free to contact us.</div>
-       
       <div> Have a great day!</div>` 
     });
 
@@ -79,7 +85,7 @@ try{
     }) 
   }
 
-  async function brandOrderConfirmEmail(brandName,price,orderId,email,item){
+  async function brandOrderConfirmEmail(brandName,price,orderId,email,item,customerName,contact){
     let transporter = nodemailer.createTransport({
        host:"smtp.zoho.in",
        port:587,
@@ -102,14 +108,16 @@ try{
        html:`<h4>Hello ${brandName}</h4>
 
        </div>We're pleased to confirm your new order #${orderId}!</div>
-       <h5>Items:-</h5>
+       <h4>Items:-</h4>
        ${item?.map(it=>`<div>
         <div>Part : ${it?.name}</div>
         <div>Sku : ${it?.sku}</div>
         <div>Units : ${it?.units}</div>
         </div>`
         )}
-       <h4>Total Amount: ${price} INR</h4>`
+       <h4>Total Amount: ${price} INR</h4>
+       <div>Customer : ${customerName}</div>
+       <div>Contact : ${contact}</div>`
     });
 
 }catch(err){
