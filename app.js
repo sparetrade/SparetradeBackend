@@ -26,26 +26,26 @@ const app=express();
 
 app.use(express.json());
 
-    const corsOptions = {
-        origin: 'http://www.sparetrade.in', // Replace with your React app's URL
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        credentials: true, // Enable cookies, authorization headers, etc. (if needed)
-      };
+    // const corsOptions = {
+    //     origin: 'http://www.sparetrade.in', // Replace with your React app's URL
+    //     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    //     credentials: true, // Enable cookies, authorization headers, etc. (if needed)
+    //   };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
-// app.use(function (req, res, next){
-//     res.header("Access-Control-Allow-Origin","*");
-//     res.header(
-//         "Access-Control-Allow-Methods",
-//         "GET, POST, OPTIONS, PUT, PATCH, DELETE, HEAD"
-//     );
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept"
-//     );
-//     next();
-// });
+app.use(function (req, res, next){
+    res.header("Access-Control-Allow-Origin","*");
+    res.header(
+        "Access-Control-Allow-Methods",
+        "GET, POST, OPTIONS, PUT, PATCH, DELETE, HEAD"
+    );
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
 
 app.use(user);
 app.use(brand);
