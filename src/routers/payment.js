@@ -131,10 +131,10 @@ router.post("/paymentVerification",async(req,res)=>{
                     let notify=new Notification({name:body.name,category:"ORDER",id:order1._id,brandId:id.id,title:"A new order created"});
                     await notify.save();
                })
-               customerOrderConfirmSms(order1?.name,totalPrice1,order1?.id,order1?.contact);
+               customerOrderConfirmSms(order1?.name,totalPrice1,order1?.id,+order1?.contact);
                customerOrderConfirmEmail(order1?.name,totalPrice1,order1?.id,order1?.email);
                brandOrderConfirmEmail(pickupLocation?.name,totalPrice1,order1?.id,pickupLocation?.email,item);
-               brandOrderConfirmSms(pickupLocation?.name,totalPrice1,order1?.id,pickupLocation?.phone);
+               brandOrderConfirmSms(pickupLocation?.name,totalPrice1,order1?.id,+pickupLocation?.phone);
               }else{
                  res.status(404).send("Pickup Location not found");
               }
