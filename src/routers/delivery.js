@@ -251,12 +251,17 @@ router.get("/getAllShipment",async(req,res)=>{
 
 router.post("/shipProduct",async(req,res)=>{
    try{
-      let body=req.body;
+      const {shipment_id,amount,_id}=req.body;
       const currentToken = readTokenFromFile();
-      await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
+      await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",{shipment_id:shipment_id},{headers:{'Authorization':`Bearer ${currentToken}`}})
      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/generate/pickup",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
      let {data}=response;
      res.send(data);
+     let brand=await BrandModel.findById(_id);
+     if(brand.role==="BRAND" || brand.role==="RESELLER"){
+     brand.wallet += -amount;
+     await brand.save();
+     }
    }catch(err){
     res.status(400).send(err)
    }
