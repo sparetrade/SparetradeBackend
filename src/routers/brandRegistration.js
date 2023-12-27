@@ -188,7 +188,7 @@ router.get("/getAllBrands",async (req,res)=>{
 router.get("/getBrandBy/:id",async (req,res)=>{
     try{
         let _id=req.params.id;
-        let brand=await BrandModel.findById(_id).select("id revenue totalPay totalDue brandName email contact address approval aboutUs gstNo createdAt brandLogo brandBanner gstDocument");
+        let brand=await BrandModel.findById(_id).select("id revenue totalPay totalDue brandName email contact address approval aboutUs gstNo createdAt brandLogo password brandBanner gstDocument");
         res.send(brand);
     }catch(err){
         res.status(404).send("Brand Not found");
