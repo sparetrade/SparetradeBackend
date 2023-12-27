@@ -7,6 +7,7 @@ const BrandModel=require("../models/brandRegistrationModel");
 const Notification=require("../models/notification");
 const PickupLocation=require("../models/brandPickupLocation");
 const { default: axios } = require("axios");
+const WalletModel=require("../models/walletTransaction");
 const {customerOrderConfirmSms,brandOrderConfirmEmail,customerOrderConfirmEmail,brandOrderConfirmSms}=require("../services/service");
 const fs=require("fs");
 require("dotenv");
@@ -169,11 +170,23 @@ router.post("/paymentVerificationForWallet",async(req,res)=>{
      brand.wallet += +amount;
      await brand.save();
      res.json({status:true,msg:"Added to wallet"});
+     let transaction=new WalletModel({brandId:_id,brandName:brand.brandName,addedAmount:amount});
+     await transaction.save();
     }catch(err){
       res.status(400).send(err);
     }
   }else{
     res.status(401).send("Not Authorized");
+  }
+});
+
+router.get("/getWalletTransaction/:id", async (req, res) => {
+  try {
+      let id=req.params.id;
+      let data = await WalletModel.find({brandId:id});
+      res.send(data);
+  } catch (err) {
+      res.status(500).send(err);
   }
 });
 
