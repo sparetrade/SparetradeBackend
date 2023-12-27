@@ -180,6 +180,7 @@ router.post("/paymentVerificationForWallet",async(req,res)=>{
   }
 });
 
+
 router.get("/getWalletTransaction/:id", async (req, res) => {
   try {
       let id=req.params.id;
@@ -192,40 +193,6 @@ router.get("/getWalletTransaction/:id", async (req, res) => {
 
 router.post("/brandDuePayment",async(req,res)=>{
       try{
-        //  let paymentDetail= {
-        //        "account_number":"4564568731430371",
-        //        "amount":10000,
-        //        "currency":"INR",
-        //        "mode":"NEFT",
-        //        "purpose":"payout",
-        //        "fund_account":{
-        //            "account_type":"bank_account",
-        //            "bank_account":{
-        //                "name":"Manzar Bilal",
-        //                "ifsc":"SBIN0000650",
-        //                "account_number":"20462883795"
-        //            },
-        //            "contact":{
-        //                "name":"Manzar Bilal",
-        //                "email":"manzarbilal0786@gmail.com",
-        //                "contact":"9719125658",
-        //                "type":"employee",
-        //                "reference_id":"12345",
-        //                "notes":{
-        //                    "notes_key_1":"Tea, Earl Grey, Hot",
-        //                    "notes_key_2":"Tea, Earl Grey… decaf."
-        //                }
-        //            }
-        //        },
-        //        "queue_if_low_balance":true,
-        //        "reference_id":"Acme Transaction ID 12345",
-        //        "narration":"Acme Corp Fund Transfer",
-        //        "notes":{
-        //            "notes_key_1":"Beam me up Scotty",
-        //            "notes_key_2":"Engage"
-        //        }
-        //    }
-           
       let body=req.body;
       let response = await axios.post("https://api.razorpay.com/v1/payouts",body,{headers:{Authorization:"Basic " +new Buffer.from(process.env.RAZORPAYX_KEY_ID + ":" +process.env.RAZORPAYX_KEY_SECRET ).toString("base64")}});
       let {data}=response;

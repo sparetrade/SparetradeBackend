@@ -4,6 +4,7 @@ const axios=require("axios");
 const Order=require("../models/order");
 const fs=require("fs");
 const PickupLocation=require("../models/brandPickupLocation");
+const BrandModel=require("../models/brandRegistrationModel");
 
 const token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5NzExMDkzNiwiZXhwIjoxNjk3OTc0OTM2LCJuYmYiOjE2OTcxMTA5MzYsImp0aSI6IlplM1M2ZXJXUm02V2VENnMiLCJzdWIiOjM1OTEyMTcsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.ngrbQwIIDrsFxTeIHepeJFeqsiTvLsVwNeAi1KhsGoE";
 
@@ -251,12 +252,17 @@ router.get("/getAllShipment",async(req,res)=>{
 
 router.post("/shipProduct",async(req,res)=>{
    try{
-      let body=req.body;
+      const {shipment_id,amount,_id}=req.body;
       const currentToken = readTokenFromFile();
-      await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
+      await axios.post("https://apiv2.shiprocket.in/v1/external/courier/assign/awb",{shipment_id:shipment_id},{headers:{'Authorization':`Bearer ${currentToken}`}})
      let response=await axios.post("https://apiv2.shiprocket.in/v1/external/courier/generate/pickup",body,{headers:{'Authorization':`Bearer ${currentToken}`}})
      let {data}=response;
      res.send(data);
+     let brand=await BrandModel.findById(_id);
+     if(brand.role==="BRAND" || brand.role==="RESELLER"){
+     brand.wallet += -amount;
+     await brand.save();
+     }
    }catch(err){
     res.status(400).send(err)
    }
