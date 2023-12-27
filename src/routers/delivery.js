@@ -4,6 +4,7 @@ const axios=require("axios");
 const Order=require("../models/order");
 const fs=require("fs");
 const PickupLocation=require("../models/brandPickupLocation");
+const BrandModel=require("../models/brandRegistrationModel");
 
 const token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5NzExMDkzNiwiZXhwIjoxNjk3OTc0OTM2LCJuYmYiOjE2OTcxMTA5MzYsImp0aSI6IlplM1M2ZXJXUm02V2VENnMiLCJzdWIiOjM1OTEyMTcsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.ngrbQwIIDrsFxTeIHepeJFeqsiTvLsVwNeAi1KhsGoE";
 
