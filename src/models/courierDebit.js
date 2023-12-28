@@ -7,6 +7,6 @@ const courierTransactionSchema=new mongoose.Schema({
     debitAmount:{type:Number},
 },{timestamps:true})
 
-const CourierModel=new mongoose.model("walletTransaction",courierTransactionSchema);
+const CourierModel=new mongoose.model("courierTransaction",courierTransactionSchema);
 
 module.exports= CourierModel;
