@@ -329,4 +329,15 @@ router.get("/getCourierDebitTransaction/:id", async (req, res) => {
    }
  });
 
+ router.post("/postCourierDebitTransaction", async (req, res) => {
+   try {
+       let body=req.body;
+       let data = new CourierModel(body);
+       await data.save();
+       res.send("Saved");
+   } catch (err) {
+       res.status(400).send(err);
+   }
+ });
+
 module.exports=router;
