@@ -118,7 +118,7 @@ router.post("/generateManifest",async(req,res)=>{
       let {data}=response;
       res.send(data);
    }catch(err){
-      res.status(400).send(err);
+      res.status(400).send(err.response.data);
    }
 });
 
