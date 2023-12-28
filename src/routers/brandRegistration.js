@@ -110,6 +110,19 @@ router.get("/getAllTransaction",async(req,res)=>{
     }
 });
 
+router.patch("/updateWallet/:id",async(req,res)=>{
+    try{
+        let body=req.body;
+        let _id=req.params.id;
+        let brand=await BrandModel.findById(_id);
+        brand.wallet += -(+body.amount);
+        await brand.save();
+        res.json({status:true,msg:"Wallet Updated"});
+    }catch(err){
+      res.status(400).send(err);
+    }
+});
+
 router.get("/getTransactionBy/:id",async(req,res)=>{
     try{
        let id=req.params.id
@@ -188,7 +201,7 @@ router.get("/getAllBrands",async (req,res)=>{
 router.get("/getBrandBy/:id",async (req,res)=>{
     try{
         let _id=req.params.id;
-        let brand=await BrandModel.findById(_id).select("id revenue totalPay totalDue brandName email contact address approval aboutUs gstNo createdAt brandLogo brandBanner gstDocument");
+        let brand=await BrandModel.findById(_id);
         res.send(brand);
     }catch(err){
         res.status(404).send("Brand Not found");

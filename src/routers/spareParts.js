@@ -12,12 +12,6 @@ router.post("/addSparePart",upload().array("images"), async (req, res) => {
         let images = files?.map(f1 => f1.location);
         let obj = new sparePartModel({ ...body, images: images });
         let data = await obj.save();
-        let id=data._id;
-        QRCode.toDataURL(id.toHexString(),async function (err, code) {
-            if(err) res.send(err);
-            else
-           await sparePartModel.findByIdAndUpdate(data._id,{qrcode:code}); 
-        })
         res.json({ status: true, msg: "Spare part added successfully" });
     } catch (err) {
         res.status(400).send(err);

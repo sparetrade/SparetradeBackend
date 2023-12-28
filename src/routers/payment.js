@@ -7,6 +7,7 @@ const BrandModel=require("../models/brandRegistrationModel");
 const Notification=require("../models/notification");
 const PickupLocation=require("../models/brandPickupLocation");
 const { default: axios } = require("axios");
+const WalletModel=require("../models/walletTransaction");
 const {customerOrderConfirmSms,brandOrderConfirmEmail,customerOrderConfirmEmail,brandOrderConfirmSms}=require("../services/service");
 const fs=require("fs");
 require("dotenv");
@@ -146,42 +147,52 @@ router.post("/paymentVerification",async(req,res)=>{
      }
 });
 
+router.post("/walletPayment",async(req,res)=>{
+  try{
+   const pay=await instance.orders.create({
+     amount: (+req.body.amount)*100,
+     currency: "INR",
+   });
+   res.send(pay);
+  }catch(err){
+       res.status(400).send(err);
+  }
+});
+
+router.post("/paymentVerificationForWallet",async(req,res)=>{
+  const {razorpay_order_id,razorpay_payment_id,razorpay_signature,amount,_id}=req.body.response;
+  const body=razorpay_order_id + "|" + razorpay_payment_id;
+  const expectedSignature=crypto.createHmac('sha256',process.env.RAZORPAY_KEY_SECRET).update(body.toString()).digest("hex");
+  const isAuthentic=expectedSignature===razorpay_signature;
+  if(isAuthentic){
+    try{
+     let brand=await BrandModel.findById(_id);
+     brand.wallet += +amount;
+     await brand.save();
+     res.json({status:true,msg:"Added to wallet"});
+     let transaction=new WalletModel({brandId:_id,brandName:brand.brandName,addedAmount:amount});
+     await transaction.save();
+    }catch(err){
+      res.status(400).send(err);
+    }
+  }else{
+    res.status(401).send("Not Authorized");
+  }
+});
+
+
+router.get("/getWalletTransaction/:id", async (req, res) => {
+  try {
+      let id=req.params.id;
+      let data = await WalletModel.find({brandId:id});
+      res.send(data);
+  } catch (err) {
+      res.status(500).send(err);
+  }
+});
+
 router.post("/brandDuePayment",async(req,res)=>{
       try{
-        //  let paymentDetail= {
-        //        "account_number":"4564568731430371",
-        //        "amount":10000,
-        //        "currency":"INR",
-        //        "mode":"NEFT",
-        //        "purpose":"payout",
-        //        "fund_account":{
-        //            "account_type":"bank_account",
-        //            "bank_account":{
-        //                "name":"Manzar Bilal",
-        //                "ifsc":"SBIN0000650",
-        //                "account_number":"20462883795"
-        //            },
-        //            "contact":{
-        //                "name":"Manzar Bilal",
-        //                "email":"manzarbilal0786@gmail.com",
-        //                "contact":"9719125658",
-        //                "type":"employee",
-        //                "reference_id":"12345",
-        //                "notes":{
-        //                    "notes_key_1":"Tea, Earl Grey, Hot",
-        //                    "notes_key_2":"Tea, Earl Grey… decaf."
-        //                }
-        //            }
-        //        },
-        //        "queue_if_low_balance":true,
-        //        "reference_id":"Acme Transaction ID 12345",
-        //        "narration":"Acme Corp Fund Transfer",
-        //        "notes":{
-        //            "notes_key_1":"Beam me up Scotty",
-        //            "notes_key_2":"Engage"
-        //        }
-        //    }
-           
       let body=req.body;
       let response = await axios.post("https://api.razorpay.com/v1/payouts",body,{headers:{Authorization:"Basic " +new Buffer.from(process.env.RAZORPAYX_KEY_ID + ":" +process.env.RAZORPAYX_KEY_SECRET ).toString("base64")}});
       let {data}=response;
