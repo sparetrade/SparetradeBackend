@@ -1,6 +1,8 @@
 const express = require("express");
+const expressIP=require("express-ip");
 require("./src/db/connection");
 const cors=require("cors");
+const Visitor=require("./src/models/visitors");
 const user = require("./src/routers/userRegistration");
 const brand = require("./src/routers/brandRegistration");
 const productCategory=require("./src/routers/brandProductCategories");
@@ -45,6 +47,32 @@ app.use(function (req, res, next){
         "Origin, X-Requested-With, Content-Type, Accept"
     );
     next();
+});
+
+
+app.use(expressIP().getIpInfoMiddleware);
+
+app.use(async (req, res, next) => {
+  try {
+    const ip = req.ipInfo.clientIp;
+    const existingVisitor = await Visitor.findOne({ ip });
+    if (!existingVisitor) {
+      await Visitor.create({ ip });
+    }
+    next();
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+app.get("/getVistors",async(req,res)=>{
+    try{
+        const uniqueVisitorCount = await Visitor.countDocuments();
+        res.json({visitors:uniqueVisitorCount});
+    }catch(err){
+        res.status(500).send(err);
+    }
 });
 
 app.use(user);
