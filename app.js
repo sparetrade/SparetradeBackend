@@ -50,19 +50,24 @@ app.use(function (req, res, next){
 });
 
 
-app.use(expressIP().getIpInfoMiddleware);
+// app.use(expressIP().getIpInfoMiddleware);
 
 app.use(async (req, res, next) => {
   try {
-    const ip = req.ipInfo.clientIp;
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let missingIP = false;
+
     if (!ip) {
-        return res.status(400).send('No IP address found');
-      }
-      
+      missingIP = true;
+      console.error('No IP address found');
+    }
+
     const existingVisitor = await Visitor.findOne({ ip });
-    if (!existingVisitor) {
+    if (!existingVisitor && !missingIP) {
       await Visitor.create({ ip });
     }
+
+    req.missingIP = missingIP;
     next();
   } catch (err) {
     console.error(err);
