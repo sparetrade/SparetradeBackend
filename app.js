@@ -66,14 +66,6 @@ app.use(async (req, res, next) => {
   }
 });
 
-app.get("/getVistors",async(req,res)=>{
-    try{
-        const uniqueVisitorCount = await Visitor.countDocuments();
-        res.json({visitors:uniqueVisitorCount});
-    }catch(err){
-        res.status(500).send(err);
-    }
-});
 
 app.use(user);
 app.use(brand);
