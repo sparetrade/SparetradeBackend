@@ -55,6 +55,10 @@ app.use(expressIP().getIpInfoMiddleware);
 app.use(async (req, res, next) => {
   try {
     const ip = req.ipInfo.clientIp;
+    if (!ip) {
+        return res.status(400).send('No IP address found');
+      }
+      
     const existingVisitor = await Visitor.findOne({ ip });
     if (!existingVisitor) {
       await Visitor.create({ ip });
