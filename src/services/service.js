@@ -38,6 +38,8 @@ function smsSend(otp,mobile){
        }
     })
 
+
+    
 try{
    let sub="Order Confirmed"
     let info = await transporter.sendMail({
