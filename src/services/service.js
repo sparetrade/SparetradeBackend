@@ -10,7 +10,7 @@ require('dotenv').config();
 function smsSend(otp,mobile){
 
     let options = {
-        authorization :"oST3Je8bKsi6hGZjd9MHx047OmLrWcEDqAufIU51CnXpaBVtRPxqR3ZKJPHyWboQlOpAzstmL78j5cwS" ,
+        authorization :"GMIqeHJdlrcbvYoySzmKTOPX947Q6DjZWpwaNsV3unR1kB0tghPLlWdGfDmyQwhgIeRzJqA3VTcCk0i7" ,
          message : `This is from SpareTrade, Your OTP code is ${otp}` , 
           numbers : [mobile]
         }
@@ -32,7 +32,8 @@ function smsSend(otp,mobile){
        auth:{
           // user:"jesus.mueller87@ethereal.email",
            user:"hi@sparetrade.in",
-           pass:"o7Sy?dpc"
+           pass:"ST@lybley9"
+          //  pass:"o7Sy?dpc"
            //pass:"zT95Aax114tCZtwD1B"
        }
     })
@@ -72,7 +73,7 @@ try{
     
     Have a great day!`
     let options = {
-        authorization :"oST3Je8bKsi6hGZjd9MHx047OmLrWcEDqAufIU51CnXpaBVtRPxqR3ZKJPHyWboQlOpAzstmL78j5cwS" ,
+        authorization :"GMIqeHJdlrcbvYoySzmKTOPX947Q6DjZWpwaNsV3unR1kB0tghPLlWdGfDmyQwhgIeRzJqA3VTcCk0i7" ,
          message : content , 
           numbers : [mobile]
         }
@@ -94,7 +95,7 @@ try{
        auth:{
           // user:"jesus.mueller87@ethereal.email",
            user:"hi@sparetrade.in",
-           pass:"o7Sy?dpc"
+           pass:"ST@lybley9"
            //pass:"zT95Aax114tCZtwD1B"
        }
     })
@@ -133,7 +134,7 @@ try{
     
     Thank you for your prompt service!` 
     let options = {
-        authorization :"oST3Je8bKsi6hGZjd9MHx047OmLrWcEDqAufIU51CnXpaBVtRPxqR3ZKJPHyWboQlOpAzstmL78j5cwS" ,
+        authorization :"GMIqeHJdlrcbvYoySzmKTOPX947Q6DjZWpwaNsV3unR1kB0tghPLlWdGfDmyQwhgIeRzJqA3VTcCk0i7" ,
          message : content , 
           numbers : [mobile]
         }
@@ -155,7 +156,7 @@ async function sendMail(email,pass,isForget){
         auth:{
            // user:"jesus.mueller87@ethereal.email",
             user:"hi@sparetrade.in",
-            pass:"o7Sy?dpc"
+            pass:"ST@lybley9"
             //pass:"zT95Aax114tCZtwD1B"
         }
      })
