@@ -1,6 +1,8 @@
 const express = require("express");
+const expressIP=require("express-ip");
 require("./src/db/connection");
 const cors=require("cors");
+const Visitor=require("./src/models/visitors");
 const user = require("./src/routers/userRegistration");
 const brand = require("./src/routers/brandRegistration");
 const productCategory=require("./src/routers/brandProductCategories");
@@ -46,6 +48,33 @@ app.use(function (req, res, next){
     );
     next();
 });
+
+
+// app.use(expressIP().getIpInfoMiddleware);
+
+app.use(async (req, res, next) => {
+  try {
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let missingIP = false;
+
+    if (!ip) {
+      missingIP = true;
+      console.error('No IP address found');
+    }
+
+    const existingVisitor = await Visitor.findOne({ ip });
+    if (!existingVisitor && !missingIP) {
+      await Visitor.create({ ip });
+    }
+
+    req.missingIP = missingIP;
+    next();
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 
 app.use(user);
 app.use(brand);
